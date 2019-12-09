@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<style>
+body {
+  font-family: calibri;
+  width: 800px
+}
+
+input[type="submit"]
+{
+  width: 100px;
+  border: 2px solid #CCC;
+}
+
+input, textarea {
+  display: block;
+  border: 1px solid #CCC;
+  width: 500px;
+  height: 100%;
+  padding: 5px 5px;
+  background: none;
+  background-image: none;
+  border-radius: 0;
+  -webkit-transition: border-color .25s ease, -webkit-box-shadow .25s ease;
+  transition: border-color .25s ease, -webkit-box-shadow .25s ease;
+  transition: border-color .25s ease, box-shadow .25s ease;
+  transition: border-color .25s ease, box-shadow .25s ease, -webkit-box-shadow .25s ease;
+}
+
+.form {
+  padding: 20px;
+  margin: 0 40px auto;
+  border-radius: 4px;
+  text-align: left;
+  -webkit-box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+          box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+}
+</style>
+</head>
+
+<body>
+  <h1> SecurityScorecard App </h1>
+  <div class="form">
+    <form class="par">
+      <h3> Processing started </h3>
+      <pre> Processing started!!</pre>
+      <input name=_csrf_token type=hidden value="{{ csrf_token() }}" />
+      <br><input type="submit" formaction="./" formmethod="POST" value="Back" id='id_stop_dnld' >
+    </form>
+  </div>
+</body>
+
+</html>

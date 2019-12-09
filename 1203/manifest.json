@@ -1,0 +1,20 @@
+{
+    "areas": [
+        {
+            "description": "SecurityScorecard",
+            "id": "SecurityScorecard",
+            "required_capabilities": [
+                "ADMIN"
+            ], 
+            "text": "SecurityScorecard",
+            "url": "index"
+        }
+    ], 
+    "description": "SecurityScorecard",
+    "name": "SecurityScorecard",
+    "resources": {
+        "memory": 512
+    }, 
+    "uuid": "977d6a96-9c82-7977-77cb-c2d82226c7c9", 
+    "version": "1.0.1"
+}

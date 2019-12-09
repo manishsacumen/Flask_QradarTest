@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+    body {
+        font-family: calibri;
+        width: 900px
+    }
+
+    input[type="submit"] {
+        width: 160px;
+        border: 2px solid #CCC;
+    }
+
+    input[type="checkbox"] {
+        background-color: #eee;
+        display: block;
+        width: 15px;
+        height: 15px;
+    }
+
+    input[type="radio"] {
+        background-color: #eee;
+        display: block;
+        width: 15px;
+        height: 15px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input,
+    textarea {
+        display: block;
+        border: 1px solid #CCC;
+        width: 500px;
+        padding: 5px 5px;
+        background: none;
+        background-image: none;
+        border-radius: 0;
+        -webkit-transition: border-color .25s ease, -webkit-box-shadow .25s ease;
+        transition: border-color .25s ease, -webkit-box-shadow .25s ease;
+        transition: border-color .25s ease, box-shadow .25s ease;
+        transition: border-color .25s ease, box-shadow .25s ease, -webkit-box-shadow .25s ease;
+    }
+
+    label {
+        min-width: 165px;
+        display: block;
+        font-weight: bold;
+    }
+    .proxy_class,.select {
+        min-width: 265px;
+        display: block;
+    }
+    .form {
+        padding: 20px;
+        margin: 0 40px auto;
+        border-radius: 4px;
+        text-align: left;
+        -webkit-box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+        box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
+    }
+    .drp_down{
+        width: 512px;
+        height: 26px;
+    }
+    </style>
+</head>
+
+<body>
+    <!--<h1> SecurityScorecard </h1>-->
+    <h1>Instantly Rate and Understand the Security Risk of Any Company</h1>
+    <div class="form">
+        <form class="params" id="id_form_data" enctype="multipart/form-data" style="overflow-x:auto; overflow-y:auto">
+            <input name=_csrf_token type=hidden value="{{ csrf_token() }}" />
+            <table>
+
+
+                <tr>
+                    <td colspan="2">
+                        <br>
+                        <label style="font-size: 20px; margin-bottom: 15px; display: block;"> <b>    <h1> SecurityScorecard Settings </h1>
+                             </b> </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!--<label> SecurityScorecard Access Key </label>-->
+                        <label>Please provide your API token. If you do not already have a token, you can create one by going to the API Access area in your Settings page</label>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="ACCESS_KEY" name='access_key' id='id_AccessKey' required {% if access_key %}value="{{ access_key }}"{% endif %} />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!--<label> Domain </label>-->
+                        <label>Please enter the domain of your own scorecard</label>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="DOMAIN" name='domain' id='id_domain' {% if domain %}value="{{ domain }}"{% endif %}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!--<label> SecurityScorecard URL </label>-->
+                        <label>securityScoreCardURL</label>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="URL" name='url' id='id_url' required {% if url %}value="{{ url }}"{% endif %} />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!--<label> Severity Level for Overall Score Change </label>-->
+                        <label>Specify the severity level to be used when logging overral score changes to QRadar</label>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="level_for_overall_score_change" name='level_overall_change' id='id_overall_change' {% if level_overall_change %}value="{{ level_overall_change }}"{% endif %} />
+                    </td>
+                </tr>
+                                <tr>
+				                    <td>
+				                        <!--<label> Severity Level for Factor Score Change </label>-->
+                                        <label>Specify the severity level to be used when logging factor score changes to QRadar</label>
+				                    </td>
+				                    <td>
+				                        <input type="text" placeholder="level_for_factor_score_change" name='level_factor_change' id='id_factor_change' {% if level_factor_change %}value="{{ level_factor_change }}"{% endif %} />
+				                    </td>
+                </tr>
+                                <tr>
+				                    <td>
+				                        <!--<label> Severity Level for New Issues </label>-->
+                                        <label>Specify the severity level to be used when logging changes in the scorecard event log</label>
+				                    </td>
+				                    <td>
+				                        <input type="text" placeholder="level_for_new_issues" name='level_new_issue_change' id='id_new_issue_change' {% if level_new_issue_change %}value="{{ level_new_issue_change }}"{% endif %} />
+				                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!--<label>Portfolio IDs</label>-->
+                        <label>Please enter a list of portfolio ID's separated by comma's or enter all to monitor scorecards in all your portfolios</label>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="Portfolio IDs" name='portfolio_ids' id='portfolio_ids' {% if portfolio_ids %}value="{{ portfolio_ids }}"{% endif %} />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+
+                    </td>
+                    <td>
+                        <label>Monitor for Company</label>
+                        Do you want to log changes in the overrall score for your own scorecard? (yes/no) <input type="text"  name='fetch_company_overall' id='fetch_company_overall' value="{{ 'yes' if monitor_config.fetch_company_overall else 'no' }}" />
+                        <br />
+                        Do you want to log changes in the factor level scores for your own scorecard? (yes/no) <input type="text"  name='fetch_company_factors' id='fetch_company_factors' value="{{ 'yes' if monitor_config.fetch_company_factors else 'no' }}" />
+                        <br />
+                        Do you want to log changes in the scorecard level event log for your own scorecard? (yes/no) <input type="text"  name='fetch_company_issues' id='fetch_company_issues' value="{{ 'yes' if monitor_config.fetch_company_issues else 'no' }}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+
+                    </td>
+                    <td>
+                        <label>Monitor for Portfolio</label>
+                        Do you want to log changes in the overall score for your third party company scorecards? (yes/no) <input type="text"  name='fetch_portfolio_overall' id='fetch_portfolio_overall' value="{{ 'yes' if monitor_config.fetch_portfolio_overall else 'no' }}" />
+                        <br />
+                        Do you want to log changes in the factor level scores for your third party company scorecards? (yes/no) <input type="text"  name='fetch_portfolio_factors' id='fetch_portfolio_factors' value="{{ 'yes' if monitor_config.fetch_portfolio_factors else 'no' }}" />
+                        <br />
+                        Do you want to log changes in the scorecard event log for third party company scorecards? (yes/no) <input type="text"  name='fetch_portfolio_issues' id='fetch_portfolio_issues' value="{{ 'yes' if monitor_config.fetch_portfolio_issues else 'no' }}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Do you want to log changes in the overall score when there is no change in score for your own scorecard? (yes/no)</td>
+                    <td><input type="text" name="diff_override_own_overall" value="{{ 'yes' if diff_override_config.diff_override_own_overall else 'no' }}" ></td>
+                </tr>
+
+                <tr>
+                    <td>Do you want to log changes in the overall score when there is no change in score for your third party company scorecard? (yes/no)</td>
+                    <td><input type="text" name="diff_override_portfolio_overall" value="{{ 'yes' if diff_override_config.diff_override_portfolio_overall else 'no' }}" ></td>
+                </tr>
+
+                <tr>
+                    <td>Do you want to log changes in the factor level score when there is no change in score for your own scorecard? (yes/no)</td>
+                    <td><input type="text" name="diff_override_own_factor" value="{{ 'yes' if diff_override_config.diff_override_own_factor else 'no' }}" ></td>
+                </tr>
+
+                <tr>
+                    <td>Do you want to log changes in the factor level score when there is no change in score for your third party company scorecard? (yes/no)</td>
+                    <td><input type="text" name="diff_override_portfolio_factor" value="{{ 'yes' if diff_override_config.diff_override_portfolio_factor else 'no' }}" ></td>
+                </tr>
+
+                <tr>
+                    <td>Do you want to log issue level findings? (yes/no)</td>
+                    <td><input type="text" name="issue_level_findings" value="{{ 'yes' if monitor_config.issue_level_findings else 'no' }}" ></td>
+                </tr>
+
+                <tr>
+                    <td class="select">Log Level</td>
+                    <td>
+                       <select id="logLevel" name="level" class="drp_down" >
+                            <option value="info">INFO</option>
+                            <option value="debug">DEBUG</option>
+                            <option value="error">ERROR</option>
+                            <option value="warning">WARNING</option>
+                            <option value="critical">CRITICAL</option>
+                       </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Do you want proxy? (yes/no)</td>
+                    <td><input type="checkbox" id="proxy" name="proxy" onclick="toggle_proxyConfiguration()"></td>
+                </tr>
+            </table>
+
+            <table id="proxyConfiguration">
+                <tr>
+                    <td class="select">Proxy Type</td>
+                    <td>
+                       <select id="proxyType" name="proxy_type" class="drp_down">
+                            <option value="http">http</option>
+                            <option value="http">https</option>
+                            <option value="socks4">socks4</option>
+                            <option value="socks5">socks5</option>
+                       </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="proxy_class">Host</td>
+                    <td><input type="text" name="host" value="{{ monitor_config.host }}"></td>
+                </tr>
+                <tr>
+                    <td class="proxy_class">Port</td>
+                    <td><input type="text" name="port" value="{{ monitor_config.port }}"></td>
+                </tr>
+                <tr>
+                    <td class="proxy_class">Username</td>
+                    <td><input type="text" name="username" value="{{ monitor_config.username }}"></td>
+                </tr>
+                <tr>
+                    <td class="proxy_class">Password</td>
+                    <td><input type="password" name="password" value="{{ '******' if monitor_config.password else '' }}"></td>
+                </tr>
+            </table>
+
+                <table>
+                <tr>
+                    <td>
+                    <td>
+                        <input  type="submit" formaction="./result" formmethod="POST" value="Process" id='id_dnld'>
+                    </td>
+                    </td>
+                    <td></td>
+
+                </tr>
+                </table>
+        </form>
+    </div>
+<!--    <script type="text/javascript" src="{{ url_for('static', filename='lib/jquery-3.2.1.min.js') }}"></script>-->
+    <script>
+
+    (function() {
+
+        document.getElementById("proxy").checked = '{{monitor_config.proxy}}' == 'on'? true:false ;
+        document.getElementById("logLevel").value = '{{monitor_config.logLevel}}' != '' ? '{{monitor_config.logLevel}}' : 'info';
+        document.getElementById("proxyType").value = '{{monitor_config.proxy_type}}' != '' ? '{{monitor_config.proxy_type}}' : 'http';
+
+        toggle_proxyConfiguration();
+    })();
+    var intViewportHeight = window.innerHeight;
+    document.getElementsByClassName("form").clientHeight = intViewportHeight-200;
+
+   function toggle_proxyConfiguration()
+   {
+    if(document.getElementById("proxy").checked)
+        document.getElementById("proxyConfiguration").style.display = "block";
+    else
+        document.getElementById("proxyConfiguration").style.display = "none";
+   }
+
+    function toggle_required(val)
+    {
+        document.getElementById("id_AccessKey").required = val;
+        document.getElementById("id_domain").required = val;
+        document.getElementById("id_url").required = val;
+        document.getElementById("id_overall_change").required = val;
+        document.getElementById("id_factor_change").required = val;
+        document.getElementById("id_new_issue_change").required = val;
+    }
+
+    <!--toggle_required({{ required_or_not }});-->
+
+    </script>
+</body>
+
+</html>
