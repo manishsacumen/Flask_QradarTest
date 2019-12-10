@@ -27,11 +27,11 @@ class TestViews(object):
         response = client.get(url)
         assert response.get_data() == "Get Called"
 
-    def test_post_call(self, client, mocker):
-        mocker.patch('app.views.read_data_store', return_value=CONFIG_VALUE_COMPLETE_DATA)
-        test_obj = AESCipher()
-        mocker.patch('app.views.AESCipher', return_value=test_obj)
-        mocker.patch('app.views.render_template', return_value="Post Called")
-        url = '/'
-        response = client.post(url, data={"Hello": "hi", "csrf_token": False})
-        print(response.data)
+    # def test_post_call(self, client, mocker):
+    #     mocker.patch('app.views.read_data_store', return_value=CONFIG_VALUE_COMPLETE_DATA)
+    #     test_obj = AESCipher()
+    #     mocker.patch('app.views.AESCipher', return_value=test_obj)
+    #     mocker.patch('app.views.render_template', return_value="Post Called")
+    #     url = '/'
+    #     response = client.post(url, data={"Hello": "hi", "csrf_token": False})
+    #     print(response.data)
