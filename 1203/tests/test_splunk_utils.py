@@ -35,7 +35,7 @@ class TestExtractInputFields(object):
         data = self.data.copy()
         p1 = '123abc'
         p2 = '789xyz'
-        data['portfolio_ids'] = ' {},{}, '.format(p1, p2)
+        data['portfolio_ids'] = u'{},{},'.format(p1, p2)
         fields = ['portfolio_ids']
 
         helper = Helper(**data)
@@ -48,7 +48,9 @@ class TestExtractInputFields(object):
             'proxy_username': 'user',
             'proxy_password': 'pass',
             'proxy_url': 'example.com',
-            'proxy_port': '8080'
+            'proxy_port': '8080',
+            'username': 'user_name',
+            'password': 'pass_word'
         }
         data = self.data.copy()
         data['proxy'] = proxy

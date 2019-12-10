@@ -901,3 +901,52 @@ PORTFOLIO_2_COMANIES = {
         },
     ],
 }
+
+CONFIG_VALUE_COMPLETE_DATA = {
+    "access_key": "ABC",
+    "domain": "abc.com",
+    "level_overall_change": "77",
+    "portfolio_ids": "all",
+    "level_factor_change": "77",
+    "last_run_date": "2019-11-29",
+    "url": "https://api.securityscorecard.io",
+    "fetch_historical_data": False,
+    "proxy": {},
+    "diff_override_config": {
+        "diff_override_portfolio_overall": False,
+        "diff_override_own_factor": False,
+        "diff_override_own_overall": True,
+        "diff_override_portfolio_factor": False
+    },
+    "monitor_config":
+        {"username": "",
+         "fetch_company_issues": False,
+         "fetch_portfolio_factors": False,
+         "level": "INFO",
+         "logLevel": "info",
+         "proxy_type": "http",
+         "issue_level_findings": False,
+         "fetch_portfolio_issues": False,
+         "fetch_company_overall": True,
+         "fetch_portfolio_overall": False,
+         "host": "",
+         "fetch_company_factors": False,
+         "proxy": False,
+         "password": "",
+         "port": ""
+         },
+    "level_new_issue_change": "77"
+}
+
+CONFIG_VALUE_DATA_PORTFOLIO_LIST = {
+    "access_key": "ABC",
+    "domain": "abc.com",
+    "level_overall_change": "77",
+    "portfolio_ids": ['a', 'b', 'c'],
+    "level_factor_change": "77",
+    "last_run_date": "2019-11-29",
+    "url": "https://api.securityscorecard.io",
+    "fetch_historical_data": False,
+    "proxy": {},
+    "level_new_issue_change": "77"
+}

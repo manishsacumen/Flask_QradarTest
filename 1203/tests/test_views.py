@@ -1,37 +1,37 @@
-# from test_app import MyTest
-# from data_store import read_data_store
-#
-# current_config_access_key = {'access_key': 'xyz'}
-# current_config_port_list = ['abc123', 'asd23d']
-#
-# app = MyTest.create_app()
-#
-#
-# @app.route('/', methods=['GET', 'POST'])
-# @app.route('/index')
-# def test_index_with_access_key():
-#     access_key = 'xyz'
-#     assert access_key == current_config_access_key['access_key']
-#
-#
-# @app.route('/', methods=['GET', 'POST'])
-# @app.route('/index')
-# def test_index_with_portfolio_list():
-#     portfolio_list = ['abc123', 'asd23d']
-#     assert portfolio_list == current_config_port_list
-#
-from flask import Flask
-from mock import MagicMock
-import mock
-from app import views
-import pytest
-from conftest import client
-from app.data_store import read_data_store
+from mock_data import CONFIG_VALUE_COMPLETE_DATA, CONFIG_VALUE_DATA_PORTFOLIO_LIST
 
 
-def test_index(client, mocker):
-    read_data_store = MagicMock(return_value = {"Hello":"Hi"})
-    url = '/' or '/index'
-    response = client.get(url)
-    assert response.status_code == 200
+class AESCipher(object):
 
+    def decrypt(self, value):
+        return str(value)
+
+
+class TestViews(object):
+    def test_index(self, client,mocker):
+
+        mocker.patch('app.views.read_data_store', return_value=CONFIG_VALUE_COMPLETE_DATA)
+        test_obj = AESCipher()
+        mocker.patch('app.views.AESCipher', return_value=test_obj)
+        mocker.patch('app.views.render_template', return_value="Get Called")
+        url = '/' or '/index'
+        response = client.get(url)
+        assert response.get_data() == "Get Called"
+
+    def test_index_portfolio_list(self, client, mocker):
+        mocker.patch('app.views.read_data_store', return_value=CONFIG_VALUE_DATA_PORTFOLIO_LIST)
+        test_obj = AESCipher()
+        mocker.patch('app.views.AESCipher', return_value=test_obj)
+        mocker.patch('app.views.render_template', return_value="Get Called")
+        url = '/' or '/index'
+        response = client.get(url)
+        assert response.get_data() == "Get Called"
+
+    def test_post_call(self, client, mocker):
+        mocker.patch('app.views.read_data_store', return_value=CONFIG_VALUE_COMPLETE_DATA)
+        test_obj = AESCipher()
+        mocker.patch('app.views.AESCipher', return_value=test_obj)
+        mocker.patch('app.views.render_template', return_value="Post Called")
+        url = '/'
+        response = client.post(url, data={"Hello": "hi", "csrf_token": False})
+        print(response.data)
