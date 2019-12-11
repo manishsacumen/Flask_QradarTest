@@ -902,45 +902,36 @@ PORTFOLIO_2_COMANIES = {
     ],
 }
 
-ACCESS_KEY = "ABC**********",
-DOMAIN = "sacumen.com",
-URL = "https://api.securityscorecard.io",
-LEVEL_OVERALL_CHANGE = "77",
-LEVEL_FACTOR_CHANGE = "77",
-LEVEL_NEW_ISSUE_CHANGE = "77",
-PORTFOLIO_IDS = None,
-FETCH_HISTORICAL_DATA = False,
-MONITOR_CONFIG = {"username": "", "fetch_company_issues": False, "fetch_portfolio_factors": False,
-                       "level": "INFO", "logLevel": "info", "proxy_type": "http", "issue_level_findings": False,
-                       "fetch_portfolio_issues": False, "fetch_company_overall": True,
-                       "fetch_portfolio_overall": False, "host": "", "fetch_company_factors": False, "proxy": False,
-                       "password": "", "port": ""},
-DIFF_OVERRIDE_CONFIG = {"diff_override_portfolio_overall": False, "diff_override_own_factor": False,
-                             "diff_override_own_overall": True, "diff_override_portfolio_factor": False},
-proxy = None
-
-
-RESULT_DATA = [ACCESS_KEY, DOMAIN, URL, LEVEL_OVERALL_CHANGE, LEVEL_FACTOR_CHANGE,
-               LEVEL_NEW_ISSUE_CHANGE, PORTFOLIO_IDS, FETCH_HISTORICAL_DATA, MONITOR_CONFIG, DIFF_OVERRIDE_CONFIG, proxy]
-
-RESULT_DATA1 = {
-
-    "access_key": ACCESS_KEY,
-    "domain": DOMAIN,
-    "level_overall_change": LEVEL_OVERALL_CHANGE,
-    "portfolio_ids": PORTFOLIO_IDS,
-    "level_factor_change": LEVEL_FACTOR_CHANGE ,
-    "level_new_issue_change": LEVEL_NEW_ISSUE_CHANGE,
-    "last_run_date": "2019-11-29",
-    "url": URL,
-    "fetch_historical_data": FETCH_HISTORICAL_DATA,
-    "proxy": {},
-    "diff_override_config": DIFF_OVERRIDE_CONFIG,
-    "monitor_config": MONITOR_CONFIG
-}
-
 
 JSON_DATA = {
     "key": "value"
 }
+
+HISTORY_EVENT =  {"entries": [],
+}
+MONITOR_CONFIG = {"username": "", "fetch_company_issues": False,
+        "fetch_portfolio_factors": False, "level": "INFO",
+        "logLevel": "info", "proxy_type": "http", "issue_level_findings": True, 
+        "fetch_portfolio_issues": True,
+        "fetch_company_overall": True, 
+        "fetch_portfolio_overall": True, "host": "", 
+        "fetch_company_factors": True, "proxy": False,
+        "password": "", "port": "",
+        "level_overall_change":77,
+        "portfolio_ids" :  all}
+
+PORTFOLIO = [
+        {
+            "portfolio_id": "PORTFOLIO_ID_1",
+            "portfolio_name": "Portfolio 1",
+            "description": "These are all the vendors we monitor for security risk",
+            "privacy": "private"
+        },
+        {
+            "portfolio_id": "PORTFOLIO_ID_2",
+            "portfolio_name": "Portfolio 2",
+            "description": "These are all the vendors we monitor for security risk",
+            "privacy": "private"
+        }
+]
 
