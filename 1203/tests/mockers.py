@@ -1,3 +1,4 @@
+from mock_data import PORTFOLIO
 class Helper(object):
     """ Mock for splunk helper."""
 
@@ -107,3 +108,35 @@ class Company(object):
     def get_issue_levels(self, **config):
         # return self.issue_data, self.issue_level_data
         return self.issue_data
+
+class CompanyWriter(object):
+
+    def __init__(self, company, helper):
+        self.company = company
+        self.helper = helper
+
+    def write_overall(self, config):
+        return "Company overall logged"
+    
+    def write_issues(self, config):
+        return "Company issues logged"
+
+    def write_factors(self, config):
+        return "Company factors logged"
+
+def build_portfolio(helper, access_key, ids, **config):
+
+    return  PORTFOLIO
+
+
+class LogWriter(object):
+    """Mock for splunk event writer."""
+
+    def __init__(self):
+        self.log = []
+
+    def info(self, event):
+        self.log.append(event)
+
+    def clear_events(self):
+        self.log= []

@@ -42,4 +42,17 @@ def runner(app_name):
 #     qp_ob = QpLib()
 #     #mocker.patch('app.poll_n_write.qpylib.get_console_address', return_value=qp_ob.get_console_address())
 #     app.poll_n_write.qpylib.get_console_address = MagicMock(return_value=qp_ob.get_console_address())
+
+
+@pytest.fixture
+def mock_aescipher(app_name):
+    return None
+
+@pytest.fixture
+def mock_validate_api_credentials(app_name):
+    return None
+
+@pytest.fixture
+def mock_update_data_store(app_name):
+    return None
 #

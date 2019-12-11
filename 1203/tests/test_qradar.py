@@ -1,10 +1,11 @@
-from mock import MagicMock
+from mock import MagicMock, patch
 import requests_mock
 from app.qpylib import qpylib
 import pytest
-# from app.aes_crypt import AESCipher
+from app.aes_crypt import AESCipher
 from mock_data import (name, access_key, domain, url, level_overall_change, level_factor_change,
                        level_new_issue_change, portfolio_ids, fetch_historical_data, user_config)
+import app
 #
 # @requests_mock.Mocker()
 # class TestQradar:
@@ -61,24 +62,35 @@ def test_qr_with_less_args(mock):
         qr_obj = QRadarThread(name, access_key, domain, url, level_overall_change, level_factor_change,
                               level_new_issue_change, portfolio_ids, fetch_historical_data)
 
-@requests_mock.Mocker()
-def test_poll_write_with_valid_api_key(mock):
-    #ae_ob = AESCipher_cp()
+
+
+
+@patch('app.aes_crypt.AESCipher')
+@patch('app.utils.validate_api_credentials')
+@patch('app.data_store.update_data_store')
+def test_poll_write_with_valid_api_key(mocker, mock_aescipher,mock_validate_api_credentials, mock_update_data_store ):
     qpylib.get_console_address = MagicMock(return_value=None)
     qpylib.log = MagicMock(return_value=None)
-    AESCipher_cp.ae_ob = MagicMock(return_value=None)
-    from app.poll_n_write import read_data_store, AESCipher, poll_scorecard_n_write
+    app.aes_crypt.AESCipher =  MagicMock(return_value=None)
+    app.aes_crypt.AESCipher.side_effect = side_effect
+    from app.poll_n_write import read_data_store, poll_scorecard_n_write
     read_data_store = MagicMock(return_value=True)
-    print("calling poll-----------")
-
-    #enc_obj =
-    # enc_obj.encrypt = MagicMock(return_value=None)
-    validate_api_credentials = MagicMock(return_value=False)
+    app.utils.validate_api_credentials = MagicMock(return_value= None)
+    app.utils.validate_api_credentials.side_effect = side_effect_validate
+    app.data_store.update_data_store  = MagicMock(return_value = None)
+    app.data_store.update_data_store  =  side_effect_validate
     status, msg = poll_scorecard_n_write(access_key, domain, url, level_overall_change, level_factor_change,
                                          level_new_issue_change, portfolio_ids, fetch_historical_data,
                                          MONITOR_CONFIG={}, DIFF_OVERRIDE_CONFIG={}, proxy={})
 
 
-    assert status == False
+    assert status == True
+
+def side_effect():
+    return AESCipher_cp()
+
+def side_effect_validate():
+    return None
+
 
 
