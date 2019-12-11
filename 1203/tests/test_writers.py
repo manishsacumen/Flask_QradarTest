@@ -1,7 +1,7 @@
 from collections import OrderedDict
 
-from tests.mockers import Company, Helper, EventWriter
-from writers import CompanyWriter
+from tests.mockers import Company, Helper, EventWriter, LogWriter
+from app.writers import CompanyWriter
 
 
 class TestCompanyWriter(object):
@@ -32,15 +32,13 @@ class TestCompanyWriter(object):
             'level_overall_change': '10',
         }
         helper = Helper()
-        ew = EventWriter()
+        leef_logger = LogWriter()
 
         company = Company(self.domain, overall_data=data)
-        writer = CompanyWriter(company, helper, ew)
-
+        writer = CompanyWriter(company, helper, leef_logger)
         writer.write_overall(**config)
-
-        assert len(ew.events) == 2
-        event_data = ew.events[0]['data']
+        assert len(leef_logger.log) == 2
+        event_data = leef_logger.log[0]
         assert 'cat=OverAll' in event_data
         assert "type='scoreChange'" in event_data
         assert 'src=OverallScore' in event_data
@@ -48,30 +46,30 @@ class TestCompanyWriter(object):
         assert 'scoreYesterday=100' in event_data
         assert 'scoreToday=99' in event_data
         assert 'scoreChange=-1' in event_data
-        assert 'severity=10' in event_data
+        assert 'sev=10' in event_data
 
         # Test with zero difference and no override
-        ew.clear_events()
+        leef_logger.clear_events()
         data[0].update({'diff': 0})
         config.update({'diff_override_own_overall': False})
 
         company = Company(self.domain, overall_data=data)
-        writer = CompanyWriter(company, helper, ew)
+        writer = CompanyWriter(company, helper, leef_logger)
 
         writer.write_overall(**config)
 
-        assert len(ew.events) == 1
+        assert len(leef_logger.log) == 0
 
         # Test with zero difference and override
-        ew.clear_events()
+        leef_logger.clear_events()
         config.update({'diff_override_own_overall': True})
 
         company = Company(self.domain, overall_data=data)
-        writer = CompanyWriter(company, helper, ew)
+        writer = CompanyWriter(company, helper, leef_logger)
 
         writer.write_overall(**config)
 
-        assert len(ew.events) == 2
+        assert len(leef_logger.log) == 1
 
     def test_write_factors(self):
         data = [
@@ -103,14 +101,14 @@ class TestCompanyWriter(object):
             'level_factor_change': '10',
         }
         helper = Helper()
-        ew = EventWriter()
+        leef_logger = LogWriter()
 
         company = Company(self.domain, factor_data=data)
-        writer = CompanyWriter(company, helper, ew)
+        writer = CompanyWriter(company, helper, leef_logger)
 
         writer.write_factors(**config)
 
-        event_data_1 = ew.events[0]['data']
+        event_data_1 = leef_logger.log[0]
         assert 'body=Factor' in event_data_1
         assert "type='scoreChange'" in event_data_1
         assert 'src=s1' in event_data_1
@@ -118,7 +116,7 @@ class TestCompanyWriter(object):
         assert 'scoreYesterday=99' in event_data_1
         assert 'scoreToday=98' in event_data_1
         assert 'scoreChange=1' in event_data_1
-        assert 'severity=10' in event_data_1
+        assert 'sev=10' in event_data_1
 
         # event_data_2 = ew.events[1]['data']
         # assert 'body=Factor' in event_data_2
@@ -131,27 +129,27 @@ class TestCompanyWriter(object):
         # assert 'severity=10' in event_data_2
 
         # Test with zero difference and no override
-        ew.clear_events()
+        leef_logger.clear_events()
         data[0].update({'diff': 0})
         config.update({'diff_override_own_factor': False})
 
         company = Company(self.domain, factor_data=data)
-        writer = CompanyWriter(company, helper, ew)
+        writer = CompanyWriter(company, helper, leef_logger)
 
         writer.write_factors(**config)
 
-        assert len(ew.events) == 1
+        assert len(leef_logger.log) == 0
 
         # Test with zero difference and override
-        ew.clear_events()
+        leef_logger.clear_events()
         config.update({'diff_override_own_factor': True})
 
         company = Company(self.domain, factor_data=data)
-        writer = CompanyWriter(company, helper, ew)
+        writer = CompanyWriter(company, helper,leef_logger)
 
         writer.write_factors(**config)
 
-        assert len(ew.events) == 2
+        assert len(leef_logger.log) == 1
 
     def test_write_issues(self):
         data = ([
@@ -161,6 +159,7 @@ class TestCompanyWriter(object):
                 ('src', 'es1'),
                 ('eventID', 'e1'),
                 ('subject', self.domain),
+                ('diff', -1),
             ])],[]
         )
         config = {
@@ -168,22 +167,22 @@ class TestCompanyWriter(object):
             'fetch_issue_level_data': False
         }
         helper = Helper()
-        ew = EventWriter()
+        leef_logger = LogWriter()
 
         company = Company(self.domain, issue_data=data)
-        writer = CompanyWriter(company, helper, ew)
+        writer = CompanyWriter(company, helper, leef_logger)
 
         writer.write_issues(**config)
 
-        assert len(ew.events) == 1
+        assert len(leef_logger.log) == 1
 
-        event_data = ew.events[0]['data']
+        event_data = leef_logger.log[0]
         assert 'body=Issue' in event_data
         assert "type='type1'" in event_data
         assert 'subject=example.com' in event_data
         assert 'src=es1' in event_data
         assert 'eventID=e1' in event_data
-        assert 'severity=5' in event_data
+        assert 'sev=5' in event_data
 
     def test_write_issues_with_issue_level(self):
         data = ([
@@ -193,6 +192,7 @@ class TestCompanyWriter(object):
                 ('src', 'es1'),
                 ('eventID', 'e1'),
                 ('subject', self.domain),
+                ('diff', -1),
             ]),
         ],[{'count': 5, 'eventId': 383887, 'issuer_organization_name': 'COMODO CA Limited',
             'ssc_domain': 'sacumen.com', 'first_seen_time': '2019-08-09T01:24:49.268Z',
@@ -216,23 +216,20 @@ class TestCompanyWriter(object):
             'fetch_issue_level_data': True
         }
         helper = Helper()
-        ew = EventWriter()
+        leef_logger = LogWriter()
 
         company = Company(self.domain, issue_data=data)
-        writer = CompanyWriter(company, helper, ew)
+        writer = CompanyWriter(company, helper, leef_logger)
 
         writer.write_issues(**config)
 
-        assert len(ew.events) == 3
+        assert len(leef_logger.log) == 1
 
-        event_data = ew.events[0]['data']
-        import json
-        issue_level_data = ew.events[1]['data']
-        assert type(issue_level_data) == str
-        assert 'ssc_domain' in json.dumps(issue_level_data)
+        event_data = leef_logger.log[0]
         assert 'body=Issue' in event_data
         assert "type='type1'" in event_data
         assert 'subject=example.com' in event_data
         assert 'src=es1' in event_data
         assert 'eventID=e1' in event_data
-        assert 'severity=5' in event_data
+        assert 'sev=5' in event_data
+

@@ -901,3 +901,30 @@ PORTFOLIO_2_COMANIES = {
         },
     ],
 }
+HISTORY_EVENT =  {"entries": [],
+}
+MONITOR_CONFIG = {"username": "", "fetch_company_issues": False,
+        "fetch_portfolio_factors": False, "level": "INFO",
+        "logLevel": "info", "proxy_type": "http", "issue_level_findings": True, 
+        "fetch_portfolio_issues": True,
+        "fetch_company_overall": True, 
+        "fetch_portfolio_overall": True, "host": "", 
+        "fetch_company_factors": True, "proxy": False,
+        "password": "", "port": "",
+        "level_overall_change":77,
+        "portfolio_ids" :  all}
+
+PORTFOLIO = [
+        {
+            "portfolio_id": "PORTFOLIO_ID_1",
+            "portfolio_name": "Portfolio 1",
+            "description": "These are all the vendors we monitor for security risk",
+            "privacy": "private"
+        },
+        {
+            "portfolio_id": "PORTFOLIO_ID_2",
+            "portfolio_name": "Portfolio 2",
+            "description": "These are all the vendors we monitor for security risk",
+            "privacy": "private"
+        }
+]
