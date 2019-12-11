@@ -901,6 +901,12 @@ PORTFOLIO_2_COMANIES = {
         },
     ],
 }
+
+
+JSON_DATA = {
+    "key": "value"
+}
+
 HISTORY_EVENT =  {"entries": [],
 }
 MONITOR_CONFIG = {"username": "", "fetch_company_issues": False,
@@ -928,3 +934,4 @@ PORTFOLIO = [
             "privacy": "private"
         }
 ]
+
